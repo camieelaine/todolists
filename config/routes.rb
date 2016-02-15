@@ -1,25 +1,22 @@
 Rails.application.routes.draw do
-  resources :todo_items
-  resources :todo_lists
-  resources :todo_list_items
-  resources :todo_lists
-  resources :profiles
-  resources :users
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-
+  root 'todo_lists#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  get "/login" => "sessions#new", as: "login"
+  delete "/logout" => "sessions#destroy", as: "logout"
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-
+  resources :sessions, only: [:new, :create, :destroy]
   # Example resource route with options:
   #   resources :products do
   #     member do
@@ -45,7 +42,9 @@ Rails.application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-
+   resources :todo_lists do
+      resources :todo_items
+    end
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'
